@@ -98,13 +98,15 @@ void UnivariatePL::UpdateUsingInput(double x, double delta) {
     double offset = (x - _xmin) / _deltax;
     int left = (int)(offset);
     double leftx = offset - left;
-    _y[left + 1] += delta * leftx;
-    _y[left] += delta * (1.0 - leftx);
+    double tmp = delta * leftx;
+    _y[left + 1] += tmp;
+    _y[left] += delta - tmp;
 }
 
 void UnivariatePL::UpdateUsingMemory(double delta) {
-    _y[_lastLeftIndex + 1] += delta * _lastLeftOffset;
-    _y[_lastLeftIndex] += delta * (1.0 - _lastLeftOffset);
+    double tmp = delta * _lastLeftOffset;
+    _y[_lastLeftIndex + 1] += tmp;
+    _y[_lastLeftIndex] += delta - tmp;
 }
 
 double UnivariatePL::GetFunctionUsingInput(double x) {
